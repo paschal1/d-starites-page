@@ -2,7 +2,7 @@
 
 export default function Hero() {
   return (
-    <section className="relative h-screen overflow-hidden">
+    <section className="relative min-h-screen overflow-hidden pt-20"> {/* Added pt-20 for spacing under fixed navbar */}
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
@@ -15,7 +15,7 @@ export default function Hero() {
 
       {/* Text Content */}
       <div className="relative z-10 flex flex-col justify-center items-center h-full text-center text-white px-4">
-        <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fadeInUp hero-title">
+        <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fadeInUp">
           Empowering Growth Through Innovation
         </h1>
         <p className="text-lg md:text-xl max-w-2xl mb-8 animate-fadeInUp delay-100">
