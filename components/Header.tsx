@@ -3,13 +3,14 @@ import Link from "next/link";
 export default function Header() {
   return (
     <header className="bg-black text-white py-4">
-      <div className="container mx-auto flex justify-between items-center px-4 flex-wrap">
+      <div className="container mx-auto flex justify-between items-center px-4">
         {/* Company name with responsive font size */}
-        <h1 className="text-green-400 text-lg sm:text-xl md:text-2xl font-bold truncate">
+        <h1 className="text-green-400 text-xl sm:text-2xl font-bold truncate">
           D-Starite IT Solutions
         </h1>
 
-        <nav className="flex items-center space-x-6 mt-2 sm:mt-0">
+        {/* Navigation links and button */}
+        <nav className="flex items-center space-x-6">
           <ul className="flex space-x-4 text-sm sm:text-base">
             <li>
               <Link href="/" className="hover:text-green-300">
