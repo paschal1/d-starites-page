@@ -1,4 +1,3 @@
-// components/Header.tsx
 "use client";
 
 import { useState } from "react";
@@ -23,9 +22,16 @@ export default function Header() {
     <header className="bg-black text-white py-4 sticky top-0 z-50">
       <div className="container mx-auto px-4 flex justify-between items-center">
         {/* Logo / Brand */}
-        <h1 className="text-green-400 text-xl font-bold whitespace-nowrap">
-          D-Starite IT Solutions
-        </h1>
+        <div className="flex items-center space-x-2">
+  <div className="h-10 w-10 bg-white rounded-full overflow-hidden flex items-center justify-center">
+    <img src="/logo/logos.png" alt="D-Starite IT Solutions" className="h-full w-full object-cover" />
+  </div>
+  <h1 className="text-white-400 text-xl font-bold whitespace-nowrap">
+    D-Starite IT Solutions
+  </h1>
+</div>
+
+
 
         {/* Hamburger Icon (mobile only) */}
         <button
