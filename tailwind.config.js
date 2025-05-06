@@ -1,4 +1,3 @@
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -11,6 +10,7 @@ module.exports = {
       animation: {
         slowZoom: 'slowZoom 20s ease-in-out infinite',
         fadeInUp: 'fadeInUp 1s ease-out forwards',
+        marquee: 'marquee 15s linear infinite', // Added marquee animation
       },
       keyframes: {
         slowZoom: {
@@ -21,6 +21,10 @@ module.exports = {
           '0%': { opacity: 0, transform: 'translateY(20px)' },
           '100%': { opacity: 1, transform: 'translateY(0)' },
         },
+        marquee: { // Added marquee keyframes
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
       },
     },
   },
@@ -29,5 +33,5 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
   ],
-  darkMode: 'class', // Enable dark mode support
+  darkMode: 'class',
 }
