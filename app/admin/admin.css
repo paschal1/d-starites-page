@@ -1,0 +1,23 @@
+/* admin.css */
+
+body {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .admin-sidebar {
+    background-color: #1a1a1a;
+    color: white;
+  }
+  
+  .admin-sidebar a {
+    display: block;
+    padding: 10px;
+    color: #ccc;
+    text-decoration: none;
+  }
+  
+  .admin-sidebar a:hover {
+    background-color: #333;
+    color: #4ade80;
+  }
+  

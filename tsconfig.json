@@ -18,6 +18,10 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "baseUrl": ".",                // Required for alias resolution
+    "paths": {
+      "@/*": ["./*"]               // Enables '@/' alias for imports
+    },
     "plugins": [
       {
         "name": "next"
