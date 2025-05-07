@@ -2,24 +2,27 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import { Hero, IHeroDocument } from '@/models/Hero';
 
+// GET Method: Fetch all hero sections
 export async function GET() {
   try {
     await dbConnect();
 
-    // Find the first hero document in the collection
-    const hero: IHeroDocument | null = await Hero.findOne({}).exec();
+    // Return only the most recently created hero
+    const latestHero: IHeroDocument | null = await Hero.findOne().sort({ createdAt: -1 }).exec();
 
-    if (!hero) {
-      return NextResponse.json({ message: "Hero not found" }, { status: 404 });
+    if (!latestHero) {
+      return NextResponse.json({ message: "No hero section found" }, { status: 404 });
     }
 
-    return NextResponse.json(hero);
+    return NextResponse.json(latestHero);
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Failed to fetch hero section" }, { status: 500 });
   }
 }
 
+
+// POST Method: Create or update a hero section
 export async function POST(req: Request) {
   try {
     const data = await req.json();

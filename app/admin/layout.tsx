@@ -1,4 +1,3 @@
-// app/admin/layout.tsx
 import Link from "next/link";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -10,6 +9,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <nav className="space-y-2">
           <Link href="/admin" className="block hover:text-green-400">Dashboard</Link>
           <Link href="/admin/hero" className="block hover:text-green-400">Hero Section</Link>
+          <Link href="/admin/herolist" className="block hover:text-green-400">Hero List</Link> {/* New Link to Hero List */}
           {/* Add more links as needed */}
         </nav>
       </aside>

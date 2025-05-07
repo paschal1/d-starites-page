@@ -32,7 +32,7 @@ export default function EditHeroSection() {
       alert('Hero section updated successfully!');
       console.log(data);
   
-      // Reset form fields
+      //  Reset form fields
       setTitle('');
       setSubtitle('');
       setButtonText('');
