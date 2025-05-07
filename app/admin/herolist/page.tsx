@@ -20,7 +20,7 @@ export default function HeroList() {
     const fetchHeroes = async () => {
       const res = await fetch('/api/hero');
       const data = await res.json();
-      setHeroes(data);
+      setHeroes(data); // Assuming backend always returns a single latest hero in an array
     };
     fetchHeroes();
   }, []);

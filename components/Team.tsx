@@ -13,7 +13,7 @@ const teamMembers = [
     image: "/team/confidence.jpg",
   },
   {
-    name: "Emmanuel Okwudiri",
+    name: "Emmanuel Ntekim",
     role: "Software Engineer",
     image: "/team/emmanuel.jpg",
   },
