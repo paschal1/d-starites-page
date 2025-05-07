@@ -12,6 +12,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link href="/admin/herolist" className="block hover:text-green-400">Hero List</Link> {/* New Link to Hero List */}
           <Link href="/admin/service" className="block hover:text-green-400">Service Section</Link>
           <Link href="/admin/servicelist" className="block hover:text-green-400">Service List</Link>
+          <Link href="/admin/about" className="block hover:text-green-400">About Section</Link>
+          <Link href="/admin/aboutlist" className="block hover:text-green-400">About List</Link>
+          <Link href="/admin/project" className="block hover:text-green-400">Service Section</Link>
+          <Link href="/admin/projectlist" className="block hover:text-green-400">Project List</Link>
           {/* Add more links as needed */}
         </nav>
       </aside>
