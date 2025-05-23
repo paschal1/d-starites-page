@@ -14,7 +14,7 @@ export default function About() {
   useEffect(() => {
     fetch('/api/about')
       .then(res => res.json())
-      .then(data => setAbout(data));
+      .then(data => {console.log("About data:", data); setAbout(data)});
   }, []);
 
   if (!about) {
