@@ -1,40 +1,36 @@
-import { NextRequest, NextResponse } from "next/server";
-import dbConnect from "@/lib/db";
-import { About } from "@/models/About";
+import { NextRequest, NextResponse } from 'next/server';
+import dbConnect from '@/lib/db';
+import { About } from '@/models/About';
 
-// PUT: Update an about document
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+type Params = {
+  params: {
+    id: string;
+  };
+};
+
+export async function PATCH(req: NextRequest, { params }: Params) {
   try {
     await dbConnect();
-    const body = await req.json();
+    const data = await req.json();
 
-    const updatedAbout = await About.findByIdAndUpdate(params.id, body, { new: true });
-
-    if (!updatedAbout) {
-      return NextResponse.json({ message: "Not found" }, { status: 404 });
-    }
+    const updatedAbout = await About.findByIdAndUpdate(params.id, data, { new: true });
 
     return NextResponse.json(updatedAbout);
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ message: "Failed to update about" }, { status: 500 });
+    console.error('PATCH /api/about/[id] failed:', error);
+    return NextResponse.json({ message: 'Failed to update about' }, { status: 500 });
   }
 }
 
-// DELETE: Delete an about document
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: Params) {
   try {
     await dbConnect();
 
-    const deleted = await About.findByIdAndDelete(params.id);
+    await About.findByIdAndDelete(params.id);
 
-    if (!deleted) {
-      return NextResponse.json({ message: "Not found" }, { status: 404 });
-    }
-
-    return NextResponse.json({ message: "Deleted successfully" });
+    return NextResponse.json({ message: 'Deleted successfully' });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ message: "Failed to delete about" }, { status: 500 });
+    console.error('DELETE /api/about/[id] failed:', error);
+    return NextResponse.json({ message: 'Failed to delete about' }, { status: 500 });
   }
 }

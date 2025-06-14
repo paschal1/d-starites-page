@@ -18,9 +18,11 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": ".",                // Required for alias resolution
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]               // Enables '@/' alias for imports
+      "@/*": [
+        "./*"
+      ]
     },
     "plugins": [
       {
@@ -29,12 +31,15 @@
     ]
   },
   "include": [
-    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "next-env.d.ts"
+    // ✅ removed .next/types/**/*.ts
+    ,
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    ".next" // ✅ this excludes all generated files
   ]
 }
