@@ -19,8 +19,11 @@
     "@tailwindcss/typography": "^0.5.16",
     "mongoose": "^8.14.1",
     "next": "^15.1.8",
+    "nodemailer": "^7.0.3",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-hot-toast": "^2.5.2",
+    "resend": "^4.6.0"
   },
   "devDependencies": {
     "@types/mongoose": "^5.11.96",

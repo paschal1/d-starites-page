@@ -10,12 +10,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link href="/admin" className="block hover:text-green-400">Dashboard</Link>
           <Link href="/admin/hero" className="block hover:text-green-400">Hero Section</Link>
           <Link href="/admin/herolist" className="block hover:text-green-400">Hero List</Link> {/* New Link to Hero List */}
-          <Link href="/admin/service" className="block hover:text-green-400">Service Section</Link>
+          <Link href="/admin/service" className="block hover:text-green-400">Manage Service</Link>
           <Link href="/admin/servicelist" className="block hover:text-green-400">Service List</Link>
-          <Link href="/admin/about" className="block hover:text-green-400">About Section</Link>
+          <Link href="/admin/about" className="block hover:text-green-400">Manage About</Link>
           <Link href="/admin/aboutlist" className="block hover:text-green-400">About List</Link>
-          <Link href="/admin/project" className="block hover:text-green-400">Project Section</Link>
+          <Link href="/admin/project" className="block hover:text-green-400">Project Magement</Link>
           <Link href="/admin/projectlist" className="block hover:text-green-400">Project List</Link>
+          <Link href="/admin/team" className="block hover:text-green-400">Team Management</Link>
+            <Link href="/admin/team" className="block hover:text-green-400">Tean List</Link>
+          <Link href="/admin/contact" className="block hover:text-green-400">Contact Section</Link>
+          <Link href="/admin/contactlist" className="block hover:text-green-400">Contact List</Link>
+          <Link href="/admin/blog" className="block hover:text-green-400">Blog Section</Link>
+          <Link href="/admin/bloglist" className="block hover:text-green-400">Blog List</Link>
           {/* Add more links as needed */}
         </nav>
       </aside>
