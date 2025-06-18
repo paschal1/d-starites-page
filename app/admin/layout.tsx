@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen">
@@ -19,8 +20,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link href="/admin/team" className="block hover:text-green-400">Team Management</Link>
             <Link href="/admin/team" className="block hover:text-green-400">Tean List</Link>
           <Link href="/admin/contact" className="block hover:text-green-400">Contact Section</Link>
-    
           <Link href="/admin/blog" className="block hover:text-green-400">Blog Section</Link>
+          <Link href="/admin/courses" className="block hover:text-green-400">Academy Section</Link>
+          <Link href="/admin/payments" className="block hover:text-green-400">Paid courses List</Link>
+
   
           {/* Add more links as needed */}
         </nav>

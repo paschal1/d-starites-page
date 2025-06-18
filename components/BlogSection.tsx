@@ -1,101 +1,148 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import { useEffect, useState } from 'react';
+import BlogForm from './BlogForm'; // adjust import path as needed
 
-export default function BlogSection() {
-  const postsPerLoad = 3;
-  const [visibleCount, setVisibleCount] = useState(postsPerLoad);
-  const [blogs, setBlogs] = useState<any[]>([]);
+interface IBlog {
+  _id: string;
+  title: string;
+  excerpt: string;
+  image: string;
+  author: string;
+  date: string;
+  slug: string;
+}
+
+export default function BlogAdminPage() {
+  const [blogs, setBlogs] = useState<IBlog[]>([]);
+  const [editingBlog, setEditingBlog] = useState<IBlog | null>(null);
+  const [newBlog, setNewBlog] = useState<Omit<IBlog, '_id'>>({
+    title: '',
+    excerpt: '',
+    image: '',
+    author: '',
+    date: '',
+    slug: '',
+  });
 
   useEffect(() => {
-    async function fetchBlogs() {
-      const res = await fetch("/api/blogs");
-      const data = await res.json();
-      setBlogs(data);
-    }
-    fetchBlogs();
+    fetch('/api/blogs')
+      .then((res) => res.json())
+      .then((data) => setBlogs(data.blogs || data))
+      .catch((err) => {
+        console.error(err);
+        alert('Failed to load blog data');
+      });
   }, []);
 
-  const visiblePosts = blogs.slice(0, visibleCount);
-  const hasMore = visibleCount < blogs.length;
+  const handleDelete = async (_id: string) => {
+    if (!confirm('Delete this blog post?')) return;
+    const res = await fetch(`/api/blogs/${_id}`, { method: 'DELETE' });
+    if (res.ok) {
+      setBlogs((prev) => prev.filter((b) => b._id !== _id));
+    } else alert('Failed to delete blog post');
+  };
+
+  const handleAdd = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const res = await fetch('/api/blogs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newBlog),
+    });
+    if (res.ok) {
+      const added = await res.json();
+      setBlogs((prev) => [...prev, added]);
+      setNewBlog({ title: '', excerpt: '', image: '', author: '', date: '', slug: '' });
+    } else alert('Failed to add blog post');
+  };
+
+  const handleEdit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingBlog) return;
+
+    const res = await fetch(`/api/blogs/${editingBlog._id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(editingBlog),
+    });
+
+    if (res.ok) {
+      const updated = await res.json();
+      setBlogs((prev) => prev.map((b) => (b._id === updated._id ? updated : b)));
+      setEditingBlog(null);
+    } else alert('Failed to update blog post');
+  };
 
   return (
-    <section className="bg-white py-20">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-800 mb-3">
-            Latest Insights & Articles
-          </h2>
-          <p className="text-gray-500 max-w-xl mx-auto">
-            Explore deep dives, updates, and innovations from the minds at
-            D-Starite Technologies.
-          </p>
-        </div>
+    <div className="p-6 max-w-5xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6 text-green-700">Blog Admin Panel</h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {visiblePosts.map((post) => (
-            <div
-              key={post._id}
-              className="bg-gray-50 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300"
-            >
-              <Link href={`/blog/${post.slug}`}>
-                <div className="relative w-full h-56">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    layout="fill"
-                    objectFit="cover"
-                    className="transition-transform duration-300 hover:scale-105"
-                  />
-                </div>
-              </Link>
+      {/* Add Blog */}
+      <section className="mb-8 bg-white rounded shadow p-6">
+        <h2 className="text-xl font-semibold mb-4">Add New Blog</h2>
+        <BlogForm
+          formData={newBlog}
+          onChange={(field, value) =>
+            setNewBlog((prev) => ({ ...prev, [field]: value }))
+          }
+          onSubmit={handleAdd}
+        />
+      </section>
 
-              <div className="p-6">
-                <p className="text-sm text-green-600 font-semibold mb-1">
-                  {post.date}
-                </p>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    className="hover:text-green-700 transition-colors"
+      {/* Edit Blog */}
+      {editingBlog && (
+        <section className="mb-8 bg-yellow-50 border border-yellow-200 rounded shadow p-6">
+          <h2 className="text-xl font-semibold mb-4 text-yellow-700">Edit Blog</h2>
+          <BlogForm
+            formData={editingBlog}
+            onChange={(field, value) =>
+              setEditingBlog((prev) => (prev ? { ...prev, [field]: value } : null))
+            }
+            onSubmit={handleEdit}
+            onCancel={() => setEditingBlog(null)}
+            isEditing
+          />
+        </section>
+      )}
+
+      {/* Blog List */}
+      <section className="bg-white rounded shadow p-6">
+        <h2 className="text-xl font-semibold mb-4">Blog Posts</h2>
+        <table className="w-full text-left border">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="p-3 border">Title</th>
+              <th className="p-3 border">Author</th>
+              <th className="p-3 border">Date</th>
+              <th className="p-3 border">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {blogs.map((blog) => (
+              <tr key={blog._id}>
+                <td className="p-3 border">{blog.title}</td>
+                <td className="p-3 border">{blog.author}</td>
+                <td className="p-3 border">{blog.date}</td>
+                <td className="p-3 border space-x-2">
+                  <button
+                    onClick={() => setEditingBlog(blog)}
+                    className="bg-yellow-400 text-white px-2 py-1 rounded"
                   >
-                    {post.title}
-                  </Link>
-                </h3>
-                <p className="text-gray-600 text-sm mb-4">
-                  {post.excerpt.length > 100
-                    ? `${post.excerpt.slice(0, 100)}...`
-                    : post.excerpt}
-                </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-500 italic">
-                    By {post.author}
-                  </span>
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    className="text-green-600 text-sm font-medium hover:underline"
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(blog._id)}
+                    className="bg-red-600 text-white px-2 py-1 rounded"
                   >
-                    Read More →
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {hasMore && (
-          <div className="text-center mt-12">
-            <button
-              onClick={() => setVisibleCount((prev) => prev + postsPerLoad)}
-              className="px-6 py-3 bg-green-700 text-white text-sm font-semibold rounded-full hover:bg-green-800 transition-all duration-300 shadow"
-            >
-              View More Articles
-            </button>
-          </div>
-        )}
-      </div>
-    </section>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+    </div>
   );
 }

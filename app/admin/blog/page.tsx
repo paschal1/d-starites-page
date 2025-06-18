@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import TipTapEditor from '@/components/TipTapEditor';
 
 interface IBlog {
   _id: string;
@@ -25,172 +26,212 @@ export default function BlogAdminPage() {
   });
 
   useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const res = await fetch('/api/blogs');
-        if (!res.ok) throw new Error('Failed to fetch blogs');
-        const data = await res.json();
-        setBlogs(data);
-      } catch (error) {
-        console.error(error);
+    fetch('/api/blogs')
+      .then((res) => res.json())
+      .then((data) => {
+        setBlogs(data.blogs || data);
+      })
+      .catch((err) => {
+        console.error(err);
         alert('Failed to load blog data');
-      }
-    };
-    fetchBlogs();
+      });
   }, []);
 
   const handleDelete = async (_id: string) => {
     if (!confirm('Delete this blog post?')) return;
-    try {
-      const res = await fetch(`/api/blogs/${_id}`, { method: 'DELETE' });
-      if (res.ok) {
-        setBlogs((prev) => prev.filter((b) => b._id !== _id));
-      } else {
-        alert('Failed to delete blog post');
-      }
-    } catch (error) {
-      console.error(error);
-      alert('Error deleting blog post');
-    }
+    const res = await fetch(`/api/blogs/${_id}`, { method: 'DELETE' });
+    if (res.ok) {
+      setBlogs((prev) => prev.filter((b) => b._id !== _id));
+    } else alert('Failed to delete blog post');
   };
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const res = await fetch('/api/blogs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newBlog),
-      });
-      if (res.ok) {
-        const added = await res.json();
-        setBlogs((prev) => [...prev, added]);
-        setNewBlog({
-          title: '',
-          excerpt: '',
-          image: '',
-          author: '',
-          date: '',
-          slug: '',
-        });
-      } else {
-        alert('Failed to add blog post');
-      }
-    } catch (error) {
-      console.error(error);
-      alert('Error adding blog post');
-    }
+    const res = await fetch('/api/blogs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newBlog),
+    });
+    if (res.ok) {
+      const added = await res.json();
+      setBlogs((prev) => [...prev, added]);
+      setNewBlog({ title: '', excerpt: '', image: '', author: '', date: '', slug: '' });
+    } else alert('Failed to add blog post');
   };
 
   const handleEdit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingBlog) return;
-    try {
-      const res = await fetch(`/api/blogs/${editingBlog._id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editingBlog),
-      });
-      if (res.ok) {
-        const updated = await res.json();
-        setBlogs((prev) => prev.map((b) => (b._id === updated._id ? updated : b)));
-        setEditingBlog(null);
-      } else {
-        alert('Failed to update blog post');
-      }
-    } catch (error) {
-      console.error(error);
-      alert('Error updating blog post');
-    }
+
+    const res = await fetch(`/api/blogs/${editingBlog._id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(editingBlog),
+    });
+
+    if (res.ok) {
+      const updated = await res.json();
+      setBlogs((prev) => prev.map((b) => (b._id === updated._id ? updated : b)));
+      setEditingBlog(null);
+    } else alert('Failed to update blog post');
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Blog Management</h1>
+    <div className="p-6 max-w-5xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6 text-green-700">Blog Admin Panel</h1>
 
-      {/* Add Form */}
-      <form onSubmit={handleAdd} className="mb-6 border p-4 rounded">
-        <h2 className="text-lg font-semibold mb-2">Add Blog Post</h2>
-        {['title', 'excerpt', 'image', 'author', 'date', 'slug'].map((field) => (
+      {/* Add Blog */}
+      <section className="mb-8 bg-white rounded shadow p-6">
+        <h2 className="text-xl font-semibold mb-4">Add New Blog</h2>
+        <form onSubmit={handleAdd} className="grid grid-cols-2 gap-4">
           <input
-            key={field}
             type="text"
-            placeholder={field[0].toUpperCase() + field.slice(1)}
-            value={(newBlog as any)[field]}
-            onChange={(e) =>
-              setNewBlog((prev) => ({ ...prev, [field]: e.target.value }))
-            }
-            className="border p-2 mr-2 mb-2 w-full"
+            placeholder="Title"
+            value={newBlog.title}
+            onChange={(e) => setNewBlog((prev) => ({ ...prev, title: e.target.value }))}
+            className="border rounded p-2 col-span-2 sm:col-span-1"
           />
-        ))}
-        <button className="bg-green-600 text-white px-4 py-2 rounded">Add</button>
-      </form>
-
-      {/* Edit Form */}
-      {editingBlog && (
-        <form
-          onSubmit={handleEdit}
-          className="mb-6 border p-4 rounded bg-yellow-100"
-        >
-          <h2 className="text-lg font-semibold mb-2">Edit Blog Post</h2>
-          {['title', 'excerpt', 'image', 'author', 'date', 'slug'].map((field) => (
-            <input
-              key={field}
-              type="text"
-              value={(editingBlog as any)[field]}
-              onChange={(e) =>
-                setEditingBlog((prev) =>
-                  prev ? { ...prev, [field]: e.target.value } : null
-                )
-              }
-              className="border p-2 mr-2 mb-2 w-full"
+          <input
+            type="text"
+            placeholder="Image URL"
+            value={newBlog.image}
+            onChange={(e) => setNewBlog((prev) => ({ ...prev, image: e.target.value }))}
+            className="border rounded p-2 col-span-2 sm:col-span-1"
+          />
+          <input
+            type="text"
+            placeholder="Author"
+            value={newBlog.author}
+            onChange={(e) => setNewBlog((prev) => ({ ...prev, author: e.target.value }))}
+            className="border rounded p-2 col-span-2 sm:col-span-1"
+          />
+          <input
+            type="text"
+            placeholder="Date"
+            value={newBlog.date}
+            onChange={(e) => setNewBlog((prev) => ({ ...prev, date: e.target.value }))}
+            className="border rounded p-2 col-span-2 sm:col-span-1"
+          />
+          <input
+            type="text"
+            placeholder="Slug"
+            value={newBlog.slug}
+            onChange={(e) => setNewBlog((prev) => ({ ...prev, slug: e.target.value }))}
+            className="border rounded p-2 col-span-2"
+          />
+          <div className="col-span-2">
+            <label className="block text-sm text-gray-700 mb-1">Excerpt</label>
+            <TipTapEditor
+              value={newBlog.excerpt}
+              onChange={(value) => setNewBlog((prev) => ({ ...prev, excerpt: value }))}
             />
-          ))}
-          <button className="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
-          <button
-            type="button"
-            onClick={() => setEditingBlog(null)}
-            className="ml-2 bg-gray-600 text-white px-4 py-2 rounded"
-          >
-            Cancel
+          </div>
+          <button className="bg-green-600 text-white px-4 py-2 rounded col-span-2">
+            Add Blog Post
           </button>
         </form>
+      </section>
+
+      {/* Edit Blog */}
+      {editingBlog && (
+        <section className="mb-8 bg-yellow-50 border border-yellow-200 rounded shadow p-6">
+          <h2 className="text-xl font-semibold mb-4 text-yellow-700">Edit Blog</h2>
+          <form onSubmit={handleEdit} className="grid grid-cols-2 gap-4">
+            <input
+              type="text"
+              placeholder="Title"
+              value={editingBlog.title}
+              onChange={(e) => setEditingBlog((prev) => (prev ? { ...prev, title: e.target.value } : null))}
+              className="border rounded p-2 col-span-2 sm:col-span-1"
+            />
+            <input
+              type="text"
+              placeholder="Image"
+              value={editingBlog.image}
+              onChange={(e) => setEditingBlog((prev) => (prev ? { ...prev, image: e.target.value } : null))}
+              className="border rounded p-2 col-span-2 sm:col-span-1"
+            />
+            <input
+              type="text"
+              placeholder="Author"
+              value={editingBlog.author}
+              onChange={(e) => setEditingBlog((prev) => (prev ? { ...prev, author: e.target.value } : null))}
+              className="border rounded p-2 col-span-2 sm:col-span-1"
+            />
+            <input
+              type="text"
+              placeholder="Date"
+              value={editingBlog.date}
+              onChange={(e) => setEditingBlog((prev) => (prev ? { ...prev, date: e.target.value } : null))}
+              className="border rounded p-2 col-span-2 sm:col-span-1"
+            />
+            <input
+              type="text"
+              placeholder="Slug"
+              value={editingBlog.slug}
+              onChange={(e) => setEditingBlog((prev) => (prev ? { ...prev, slug: e.target.value } : null))}
+              className="border rounded p-2 col-span-2"
+            />
+            <div className="col-span-2">
+              <label className="block text-sm text-gray-700 mb-1">Excerpt</label>
+              <TipTapEditor
+                value={editingBlog.excerpt}
+                onChange={(value) =>
+                  setEditingBlog((prev) => (prev ? { ...prev, excerpt: value } : null))
+                }
+              />
+            </div>
+            <div className="col-span-2 flex gap-4">
+              <button className="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+              <button
+                type="button"
+                onClick={() => setEditingBlog(null)}
+                className="bg-gray-600 text-white px-4 py-2 rounded"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </section>
       )}
 
-      {/* Blog Table */}
-      <table className="min-w-full table-auto border-collapse">
-        <thead>
-          <tr>
-            <th className="px-4 py-2 border">Title</th>
-            <th className="px-4 py-2 border">Author</th>
-            <th className="px-4 py-2 border">Date</th>
-            <th className="px-4 py-2 border">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {blogs.map((blog) => (
-            <tr key={blog._id}>
-              <td className="px-4 py-2 border">{blog.title}</td>
-              <td className="px-4 py-2 border">{blog.author}</td>
-              <td className="px-4 py-2 border">{blog.date}</td>
-              <td className="px-4 py-2 border flex gap-2">
-                <button
-                  onClick={() => setEditingBlog(blog)}
-                  className="bg-yellow-500 text-white px-2 py-1 rounded"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(blog._id)}
-                  className="bg-red-600 text-white px-2 py-1 rounded"
-                >
-                  Delete
-                </button>
-              </td>
+      {/* Blog List */}
+      <section className="bg-white rounded shadow p-6">
+        <h2 className="text-xl font-semibold mb-4">Blog Posts</h2>
+        <table className="w-full text-left border">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="p-3 border">Title</th>
+              <th className="p-3 border">Author</th>
+              <th className="p-3 border">Date</th>
+              <th className="p-3 border">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {blogs.map((blog) => (
+              <tr key={blog._id}>
+                <td className="p-3 border">{blog.title}</td>
+                <td className="p-3 border">{blog.author}</td>
+                <td className="p-3 border">{blog.date}</td>
+                <td className="p-3 border space-x-2">
+                  <button
+                    onClick={() => setEditingBlog(blog)}
+                    className="bg-yellow-400 text-white px-2 py-1 rounded"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(blog._id)}
+                    className="bg-red-600 text-white px-2 py-1 rounded"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
     </div>
   );
 }

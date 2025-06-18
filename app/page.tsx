@@ -11,6 +11,7 @@ import Team from '../components/Team';
 import Blog from '../components/BlogSection';
 import Footer from '../components/Footer';
 
+
 export default function Home() {
   return (
     <>
