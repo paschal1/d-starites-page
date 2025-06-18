@@ -190,7 +190,7 @@ export default function CourseAdminPage() {
             {courses.map((course) => (
               <tr key={course._id}>
                 <td className="p-3 border">{course.title}</td>
-                <td className="p-3 border">${course.price}</td>
+                <td className="p-3 border">₦{course.price}</td>
                 <td className="p-3 border space-x-2">
                   <button
                     onClick={() => setEditingCourse(course)}
