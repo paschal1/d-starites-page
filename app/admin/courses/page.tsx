@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import TipTapEditor from '@/components/TipTapEditor'; // adjust the path as needed
-
+import TipTapEditor from '@/components/TipTapEditor';
 
 interface ICourse {
   _id: string;
@@ -97,15 +96,20 @@ export default function CourseAdminPage() {
             type="number"
             placeholder="Price"
             value={newCourse.price}
-            onChange={(e) => setNewCourse((prev) => ({ ...prev, price: parseFloat(e.target.value) }))}
+            onChange={(e) =>
+              setNewCourse((prev) => ({ ...prev, price: parseFloat(e.target.value) }))
+            }
             className="border rounded p-2 col-span-2"
           />
-          <textarea
-            placeholder="Description"
-            value={newCourse.description}
-            onChange={(e) => setNewCourse((prev) => ({ ...prev, description: e.target.value }))}
-            className="border rounded p-2 col-span-2"
-          />
+
+          <div className="col-span-2">
+            <label className="block mb-1 font-medium">Description</label>
+            <TipTapEditor
+              value={newCourse.description}
+              onChange={(val) => setNewCourse((prev) => ({ ...prev, description: val }))}
+            />
+          </div>
+
           <button className="bg-green-600 text-white px-4 py-2 rounded col-span-2">
             Add Course
           </button>
@@ -140,18 +144,23 @@ export default function CourseAdminPage() {
               placeholder="Price"
               value={editingCourse.price}
               onChange={(e) =>
-                setEditingCourse((prev) => (prev ? { ...prev, price: parseFloat(e.target.value) } : null))
+                setEditingCourse((prev) =>
+                  prev ? { ...prev, price: parseFloat(e.target.value) } : null
+                )
               }
               className="border rounded p-2 col-span-2"
             />
-            <textarea
-              placeholder="Description"
-              value={editingCourse.description}
-              onChange={(e) =>
-                setEditingCourse((prev) => (prev ? { ...prev, description: e.target.value } : null))
-              }
-              className="border rounded p-2 col-span-2"
-            />
+
+            <div className="col-span-2">
+              <label className="block mb-1 font-medium">Description</label>
+              <TipTapEditor
+                value={editingCourse.description}
+                onChange={(val) =>
+                  setEditingCourse((prev) => (prev ? { ...prev, description: val } : null))
+                }
+              />
+            </div>
+
             <div className="col-span-2 flex gap-4">
               <button className="bg-green-600 text-white px-4 py-2 rounded">Save</button>
               <button
