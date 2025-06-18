@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import PaystackPop from '@paystack/inline-js'; // npm install @paystack/inline-js
+import PaystackPop from '@paystack/inline-js';
 
 export default function CourseDetail() {
   const { id } = useParams();
   const [course, setCourse] = useState<any>(null);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     if (!id) return;
@@ -17,15 +19,37 @@ export default function CourseDetail() {
   }, [id]);
 
   const handlePayment = () => {
+    if (!name || !email) {
+      alert('Please enter your name and email before making payment.');
+      return;
+    }
+
     if (!course || !course.price || course.price <= 0) return;
 
     const paystack = new PaystackPop();
+
     paystack.newTransaction({
-      key: 'pk_test_xxxxxxxxxxxxx', // Replace with your real Paystack key
-      amount: course.price * 100, // kobo
-      email: 'student@example.com',
-      onSuccess: (response: any) => {
+      key: 'pk_test_278dd459f559b57fcd4e0353434dbafac37431f2', // Replace with your key
+      amount: course.price * 100,
+      email,
+      onSuccess: async (response: any) => {
         alert('Payment complete! Reference: ' + response.reference);
+
+        // Save to database
+        await fetch('/api/payment/verify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            amount: course.price,
+            courseId: id,
+            reference: response.reference,
+            status: 'success',
+          }),
+        });
       },
       onCancel: () => {
         alert('Payment canceled');
@@ -55,6 +79,24 @@ export default function CourseDetail() {
           ? `₦${course.price.toLocaleString()}`
           : 'Free'}
       </p>
+
+      {/* Name & Email Input */}
+      <div className="mt-6 space-y-4">
+        <input
+          type="text"
+          placeholder="Your Name"
+          className="w-full border px-4 py-2 rounded"
+          value={name}
+          onChange={e => setName(e.target.value)}
+        />
+        <input
+          type="email"
+          placeholder="Your Email"
+          className="w-full border px-4 py-2 rounded"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+        />
+      </div>
 
       {course.price > 0 && (
         <button
