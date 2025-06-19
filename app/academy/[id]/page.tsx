@@ -29,7 +29,7 @@ export default function CourseDetail() {
     const paystack = new PaystackPop();
 
     paystack.newTransaction({
-      key: 'pk_test_278dd459f559b57fcd4e0353434dbafac37431f2', // Replace with your key
+      key: 'pk_live_7fa94265109b3b80e76e7ab6b402e5160f5a35aa', // Replace with your key
       amount: course.price * 100,
       email,
       onSuccess: async (response: any) => {
