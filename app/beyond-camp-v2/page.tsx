@@ -44,8 +44,8 @@ const TRACKS: Track[] = [
     title: "Web Development",
     stack: "HTML · CSS · JavaScript · React · Next.js · Laravel",
     outcome: "Build real-world full-stack web applications from scratch.",
-    color: "#f0fdf4",
-    accent: "#16a34a",
+    color: "#e8f4ff",
+    accent: "#0077cc",
   },
   {
     icon: "📱",
@@ -60,8 +60,8 @@ const TRACKS: Track[] = [
     title: "Data Analysis",
     stack: "Excel · SQL · Power BI · Data Visualization",
     outcome: "Turn raw data into insights businesses will pay for.",
-    color: "#f0fdf4",
-    accent: "#15803d",
+    color: "#e8fff2",
+    accent: "#007a40",
   },
   {
     icon: "🎨",
@@ -76,8 +76,8 @@ const TRACKS: Track[] = [
     title: "AI & Automation",
     stack: "ChatGPT · Prompt Engineering · n8n · AI Workflows",
     outcome: "Use AI to automate work and create real income opportunities.",
-    color: "#fefce8",
-    accent: "#ca8a04",
+    color: "#fff8e8",
+    accent: "#cc8800",
   },
 ];
 
@@ -147,6 +147,7 @@ function useFadeIn(threshold = 0.15) {
   return { ref, visible };
 }
 
+// ─── FADE WRAPPER ─────────────────────────────────────────────────────────────
 function FadeIn({
   children,
   delay = 0,
@@ -208,6 +209,7 @@ export default function BeyondCampPage() {
   const [submitted, setSubmitted] = useState(false);
   const [formError, setFormError] = useState("");
   const [activeTrack, setActiveTrack] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   function handleSubmit() {
     if (!form.name.trim() || !form.phone.trim() || !form.course) {
@@ -233,13 +235,13 @@ export default function BeyondCampPage() {
         overflowX: "hidden",
       }}
     >
+      {/* ── GLOBAL STYLES (injected via style tag trick) ── */}
       <style>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
-        ::selection { background: #bbf7d0; }
+        ::selection { background: #c7e4ff; }
 
-        /* ── PRIMARY ACTION BUTTON ── */
-        .btn-primary {
+        .btn-green {
           background: #16a34a;
           color: #fff;
           padding: 15px 32px;
@@ -255,13 +257,30 @@ export default function BeyondCampPage() {
           transition: background 0.2s, transform 0.15s;
           letter-spacing: -0.01em;
         }
-        .btn-primary:hover { background: #15803d; transform: translateY(-1px); }
-        .btn-primary:active { transform: scale(0.98); }
+        .btn-green:hover { background: #15803d; transform: translateY(-1px); }
+        .btn-green:active { transform: scale(0.98); }
 
-        /* ── GHOST BUTTON (for dark sections) ── */
+        .btn-blue {
+          background: #0077cc;
+          color: #fff;
+          padding: 15px 32px;
+          border-radius: 10px;
+          font-weight: 700;
+          font-size: 16px;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          cursor: pointer;
+          border: none;
+          transition: background 0.2s, transform 0.15s;
+          letter-spacing: -0.01em;
+        }
+        .btn-blue:hover { background: #005fa3; transform: translateY(-1px); }
+
         .btn-ghost {
-          background: rgba(255,255,255,0.1);
-          border: 1.5px solid rgba(255,255,255,0.25);
+          background: rgba(255,255,255,0.12);
+          border: 1.5px solid rgba(255,255,255,0.28);
           color: #fff;
           padding: 14px 28px;
           border-radius: 10px;
@@ -273,31 +292,14 @@ export default function BeyondCampPage() {
           gap: 8px;
           cursor: pointer;
           transition: background 0.2s, transform 0.15s;
+          letter-spacing: -0.01em;
         }
-        .btn-ghost:hover { background: rgba(255,255,255,0.18); transform: translateY(-1px); }
-
-        /* ── OUTLINE BUTTON (for light sections) ── */
-        .btn-outline {
-          background: transparent;
-          border: 2px solid #16a34a;
-          color: #16a34a;
-          padding: 13px 28px;
-          border-radius: 10px;
-          font-weight: 700;
-          font-size: 15px;
-          text-decoration: none;
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          cursor: pointer;
-          transition: background 0.2s, color 0.2s, transform 0.15s;
-        }
-        .btn-outline:hover { background: #16a34a; color: #fff; transform: translateY(-1px); }
+        .btn-ghost:hover { background: rgba(255,255,255,0.2); transform: translateY(-1px); }
 
         .track-tab {
           padding: 10px 18px;
           border-radius: 8px;
-          border: 1.5px solid #d1fae5;
+          border: 1.5px solid #e5e7eb;
           background: #fff;
           font-size: 14px;
           font-weight: 600;
@@ -306,8 +308,8 @@ export default function BeyondCampPage() {
           color: #6b7280;
           white-space: nowrap;
         }
-        .track-tab:hover { border-color: #16a34a; color: #16a34a; }
-        .track-tab.active { background: #0a3d1f; border-color: #0a3d1f; color: #fff; }
+        .track-tab:hover { border-color: #0077cc; color: #0077cc; }
+        .track-tab.active { background: #0a1628; border-color: #0a1628; color: #fff; }
 
         .faq-btn {
           background: none;
@@ -333,11 +335,11 @@ export default function BeyondCampPage() {
           align-items: center;
           justify-content: center;
           font-size: 18px;
-          color: #16a34a;
+          color: #0077cc;
           flex-shrink: 0;
           transition: background 0.2s, transform 0.2s;
         }
-        .faq-icon.open { background: #16a34a; color: #fff; transform: rotate(45deg); }
+        .faq-icon.open { background: #0077cc; color: #fff; transform: rotate(45deg); }
 
         input, select, textarea {
           width: 100%;
@@ -351,7 +353,7 @@ export default function BeyondCampPage() {
           transition: border-color 0.2s, box-shadow 0.2s;
           outline: none;
         }
-        input:focus, select:focus { border-color: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,0.12); }
+        input:focus, select:focus { border-color: #0077cc; box-shadow: 0 0 0 3px rgba(0,119,204,0.12); }
         label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 7px; color: #374151; }
 
         @keyframes float {
@@ -371,7 +373,9 @@ export default function BeyondCampPage() {
           100% { transform: translateX(-50%); }
         }
 
-        .hero-badge { animation: float 4s ease-in-out infinite; }
+        .hero-badge {
+          animation: float 4s ease-in-out infinite;
+        }
 
         .pulse-dot::after {
           content: '';
@@ -390,7 +394,7 @@ export default function BeyondCampPage() {
         .ticker-wrap {
           overflow: hidden;
           white-space: nowrap;
-          background: #0a3d1f;
+          background: #0a1628;
           padding: 12px 0;
         }
         .ticker-inner {
@@ -418,7 +422,7 @@ export default function BeyondCampPage() {
           position: "sticky",
           top: 0,
           zIndex: 100,
-          background: "rgba(10, 61, 31, 0.97)",
+          background: "rgba(10, 22, 40, 0.96)",
           backdropFilter: "blur(12px)",
           WebkitBackdropFilter: "blur(12px)",
           borderBottom: "1px solid rgba(255,255,255,0.08)",
@@ -440,7 +444,7 @@ export default function BeyondCampPage() {
               style={{
                 width: "32px",
                 height: "32px",
-                background: "linear-gradient(135deg, #16a34a, #4ade80)",
+                background: "linear-gradient(135deg, #0077cc, #00b4ff)",
                 borderRadius: "8px",
                 display: "flex",
                 alignItems: "center",
@@ -458,17 +462,19 @@ export default function BeyondCampPage() {
                 letterSpacing: "-0.02em",
               }}
             >
-              Beyond<span style={{ color: "#4ade80" }}>Camp</span>
+              Beyond<span style={{ color: "#38bdf8" }}>Camp</span>
             </span>
           </div>
 
-          <a
-            href="#apply"
-            className="btn-primary"
-            style={{ padding: "9px 20px", fontSize: "14px" }}
-          >
-            Apply Now
-          </a>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <a
+              href="#apply"
+              className="btn-green"
+              style={{ padding: "9px 20px", fontSize: "14px" }}
+            >
+              Apply Now
+            </a>
+          </div>
         </div>
       </nav>
 
@@ -478,7 +484,7 @@ export default function BeyondCampPage() {
           {[...Array(2)].map((_, i) => (
             <span
               key={i}
-              style={{ color: "#86efac", fontSize: "13px", fontWeight: 500 }}
+              style={{ color: "#94a3b8", fontSize: "13px", fontWeight: 500 }}
             >
               &nbsp;&nbsp;🔥 Limited slots available &nbsp;·&nbsp; 4 Weeks
               Intensive &nbsp;·&nbsp; 100% Online &nbsp;·&nbsp; 5 Career Tracks
@@ -494,7 +500,7 @@ export default function BeyondCampPage() {
       <section
         style={{
           background:
-            "linear-gradient(160deg, #052e16 0%, #0a3d1f 45%, #14532d 100%)",
+            "linear-gradient(160deg, #070e1c 0%, #0a1628 45%, #0d2344 100%)",
           color: "#fff",
           padding: "80px 24px 90px",
           textAlign: "center",
@@ -507,8 +513,8 @@ export default function BeyondCampPage() {
           style={{
             position: "absolute",
             inset: 0,
-            backgroundImage: `linear-gradient(rgba(34,197,94,0.07) 1px, transparent 1px),
-                            linear-gradient(90deg, rgba(34,197,94,0.07) 1px, transparent 1px)`,
+            backgroundImage: `linear-gradient(rgba(0,119,204,0.06) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(0,119,204,0.06) 1px, transparent 1px)`,
             backgroundSize: "48px 48px",
             pointerEvents: "none",
           }}
@@ -524,7 +530,7 @@ export default function BeyondCampPage() {
             width: "600px",
             height: "400px",
             background:
-              "radial-gradient(ellipse, rgba(34,197,94,0.15) 0%, transparent 65%)",
+              "radial-gradient(ellipse, rgba(0,119,204,0.18) 0%, transparent 65%)",
             pointerEvents: "none",
           }}
         />
@@ -536,7 +542,7 @@ export default function BeyondCampPage() {
             width: "300px",
             height: "300px",
             background:
-              "radial-gradient(ellipse, rgba(74,222,128,0.1) 0%, transparent 65%)",
+              "radial-gradient(ellipse, rgba(56,189,248,0.12) 0%, transparent 65%)",
             pointerEvents: "none",
           }}
         />
@@ -561,8 +567,8 @@ export default function BeyondCampPage() {
           >
             <div
               style={{
-                background: "rgba(74,222,128,0.12)",
-                border: "1px solid rgba(74,222,128,0.3)",
+                background: "rgba(56,189,248,0.12)",
+                border: "1px solid rgba(56,189,248,0.3)",
                 borderRadius: "100px",
                 padding: "7px 16px",
                 display: "flex",
@@ -590,7 +596,7 @@ export default function BeyondCampPage() {
               </div>
               <span
                 style={{
-                  color: "#4ade80",
+                  color: "#38bdf8",
                   fontSize: "13px",
                   fontWeight: 700,
                   letterSpacing: "0.06em",
@@ -610,7 +616,6 @@ export default function BeyondCampPage() {
               lineHeight: 0.95,
               letterSpacing: "-0.04em",
               marginBottom: "6px",
-              color: "#fff",
             }}
           >
             BEYOND
@@ -622,7 +627,7 @@ export default function BeyondCampPage() {
               lineHeight: 0.95,
               letterSpacing: "-0.04em",
               marginBottom: "28px",
-              background: "linear-gradient(90deg, #4ade80, #86efac)",
+              background: "linear-gradient(90deg, #38bdf8, #818cf8)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -634,7 +639,7 @@ export default function BeyondCampPage() {
           <p
             style={{
               fontSize: "clamp(17px, 2.5vw, 21px)",
-              color: "#86efac",
+              color: "#94a3b8",
               lineHeight: 1.55,
               marginBottom: "40px",
               maxWidth: "560px",
@@ -643,7 +648,7 @@ export default function BeyondCampPage() {
             }}
           >
             Learn a high-income digital skill before NYSC ends.{" "}
-            <strong style={{ color: "#fff" }}>
+            <strong style={{ color: "#e2e8f0" }}>
               4 weeks. Online. Practical. Job-ready.
             </strong>
           </p>
@@ -661,10 +666,10 @@ export default function BeyondCampPage() {
           >
             <a
               href="#apply"
-              className="btn-primary shimmer-btn"
+              className="btn-blue shimmer-btn"
               style={{
                 backgroundImage:
-                  "linear-gradient(90deg, #16a34a 0%, #22c55e 50%, #16a34a 100%)",
+                  "linear-gradient(90deg, #0077cc 0%, #0099ff 50%, #0077cc 100%)",
                 fontSize: "17px",
                 padding: "16px 36px",
               }}
@@ -677,7 +682,12 @@ export default function BeyondCampPage() {
               rel="noopener noreferrer"
               className="btn-ghost"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
               </svg>
               Join Free Community
@@ -695,15 +705,15 @@ export default function BeyondCampPage() {
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              {[0, 1, 2].map((i) => (
+              {["🟢", "🟢", "🟢"].map((_, i) => (
                 <div
                   key={i}
                   style={{
                     width: "32px",
                     height: "32px",
                     borderRadius: "50%",
-                    background: `hsl(${140 + i * 20}, 60%, 40%)`,
-                    border: "2px solid #0a3d1f",
+                    background: `hsl(${200 + i * 30}, 70%, 55%)`,
+                    border: "2px solid #0a1628",
                     marginLeft: i > 0 ? "-10px" : "0",
                     fontSize: "14px",
                     display: "flex",
@@ -715,8 +725,8 @@ export default function BeyondCampPage() {
                 </div>
               ))}
             </div>
-            <p style={{ fontSize: "14px", color: "#6b7280" }}>
-              <span style={{ color: "#4ade80", fontWeight: 700 }}>
+            <p style={{ fontSize: "14px", color: "#64748b" }}>
+              <span style={{ color: "#38bdf8", fontWeight: 700 }}>
                 Corps members
               </span>{" "}
               are already registered
@@ -728,8 +738,8 @@ export default function BeyondCampPage() {
       {/* ── STATS ── */}
       <section
         style={{
-          background: "#0a3d1f",
-          borderBottom: "1px solid rgba(255,255,255,0.07)",
+          background: "#0a1628",
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
           padding: "40px 24px",
         }}
       >
@@ -762,7 +772,7 @@ export default function BeyondCampPage() {
                 style={{
                   fontSize: "clamp(30px, 5vw, 44px)",
                   fontWeight: 900,
-                  color: "#4ade80",
+                  color: "#fff",
                   lineHeight: 1,
                 }}
               >
@@ -772,10 +782,9 @@ export default function BeyondCampPage() {
               <div
                 style={{
                   fontSize: "13px",
-                  color: "#86efac",
+                  color: "#64748b",
                   fontWeight: 500,
                   marginTop: "4px",
-                  opacity: 0.7,
                 }}
               >
                 {s.label}
@@ -836,6 +845,7 @@ export default function BeyondCampPage() {
             <strong>before your service year even ends.</strong>
           </p>
 
+          {/* Feature checklist */}
           <div
             style={{
               display: "flex",
@@ -874,33 +884,39 @@ export default function BeyondCampPage() {
                 >
                   ✅
                 </div>
-                <p style={{ fontSize: "16px", color: "#1f2937", lineHeight: 1.5 }}>
+                <p
+                  style={{
+                    fontSize: "16px",
+                    color: "#1f2937",
+                    lineHeight: 1.5,
+                  }}
+                >
                   {item}
                 </p>
               </div>
             ))}
           </div>
 
-          <a href="#apply" className="btn-primary" style={{ fontSize: "16px" }}>
+          <a href="#apply" className="btn-blue" style={{ fontSize: "16px" }}>
             I Want This →
           </a>
         </FadeIn>
       </section>
 
       {/* ── TRACKS ── */}
-      <section style={{ background: "#f0fdf4", padding: "96px 24px" }}>
+      <section style={{ background: "#f8fafc", padding: "96px 24px" }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
           <FadeIn style={{ textAlign: "center", marginBottom: "48px" }}>
             <div
               style={{
                 display: "inline-block",
-                background: "#dcfce7",
-                border: "1px solid #86efac",
+                background: "#dbeafe",
+                border: "1px solid #93c5fd",
                 borderRadius: "8px",
                 padding: "5px 14px",
                 fontSize: "13px",
                 fontWeight: 700,
-                color: "#166534",
+                color: "#1d4ed8",
                 marginBottom: "16px",
                 textTransform: "uppercase",
                 letterSpacing: "0.07em",
@@ -913,7 +929,6 @@ export default function BeyondCampPage() {
                 fontSize: "clamp(28px, 4vw, 40px)",
                 fontWeight: 900,
                 letterSpacing: "-0.03em",
-                color: "#111827",
               }}
             >
               5 Career Tracks
@@ -950,9 +965,9 @@ export default function BeyondCampPage() {
               style={{
                 background: "#fff",
                 borderRadius: "20px",
-                border: "1px solid #d1fae5",
+                border: "1px solid #e5e7eb",
                 overflow: "hidden",
-                boxShadow: "0 8px 40px rgba(22,163,74,0.08)",
+                boxShadow: "0 8px 40px rgba(0,0,0,0.06)",
               }}
             >
               <div
@@ -963,7 +978,13 @@ export default function BeyondCampPage() {
                   overflow: "hidden",
                 }}
               >
-                <div style={{ fontSize: "64px", marginBottom: "16px", lineHeight: 1 }}>
+                <div
+                  style={{
+                    fontSize: "64px",
+                    marginBottom: "16px",
+                    lineHeight: 1,
+                  }}
+                >
                   {TRACKS[activeTrack].icon}
                 </div>
                 <h3
@@ -1010,11 +1031,12 @@ export default function BeyondCampPage() {
                 }}
               >
                 <p style={{ fontSize: "14px", color: "#6b7280" }}>
-                  Starts during or right after NYSC camp · Online · Certificate included
+                  Starts during or right after NYSC camp · Online · Certificate
+                  included
                 </p>
                 <a
                   href="#apply"
-                  className="btn-primary"
+                  className="btn-blue"
                   style={{ fontSize: "15px", padding: "12px 24px" }}
                 >
                   Apply for this track →
@@ -1037,8 +1059,8 @@ export default function BeyondCampPage() {
                 key={t.title}
                 onClick={() => setActiveTrack(i)}
                 style={{
-                  background: activeTrack === i ? "#0a3d1f" : "#fff",
-                  border: `1.5px solid ${activeTrack === i ? "#0a3d1f" : "#d1fae5"}`,
+                  background: activeTrack === i ? "#0a1628" : "#fff",
+                  border: `1.5px solid ${activeTrack === i ? "#0a1628" : "#e5e7eb"}`,
                   borderRadius: "12px",
                   padding: "16px",
                   cursor: "pointer",
@@ -1046,12 +1068,14 @@ export default function BeyondCampPage() {
                   transition: "all 0.2s",
                 }}
               >
-                <div style={{ fontSize: "24px", marginBottom: "8px" }}>{t.icon}</div>
+                <div style={{ fontSize: "24px", marginBottom: "8px" }}>
+                  {t.icon}
+                </div>
                 <p
                   style={{
                     fontSize: "13px",
                     fontWeight: 700,
-                    color: activeTrack === i ? "#4ade80" : "#111827",
+                    color: activeTrack === i ? "#fff" : "#111827",
                     lineHeight: 1.3,
                   }}
                 >
@@ -1115,17 +1139,27 @@ export default function BeyondCampPage() {
                   transition: "border-color 0.2s, box-shadow 0.2s",
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor = "#16a34a";
+                  (e.currentTarget as HTMLDivElement).style.borderColor =
+                    "#0077cc";
                   (e.currentTarget as HTMLDivElement).style.boxShadow =
-                    "0 4px 24px rgba(22,163,74,0.12)";
+                    "0 4px 24px rgba(0,119,204,0.1)";
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor = "#e5e7eb";
+                  (e.currentTarget as HTMLDivElement).style.borderColor =
+                    "#e5e7eb";
                   (e.currentTarget as HTMLDivElement).style.boxShadow = "none";
                 }}
               >
-                <div style={{ fontSize: "32px", marginBottom: "10px" }}>{b.icon}</div>
-                <p style={{ fontSize: "13px", fontWeight: 700, color: "#374151" }}>
+                <div style={{ fontSize: "32px", marginBottom: "10px" }}>
+                  {b.icon}
+                </div>
+                <p
+                  style={{
+                    fontSize: "13px",
+                    fontWeight: 700,
+                    color: "#374151",
+                  }}
+                >
                   {b.label}
                 </p>
               </div>
@@ -1135,7 +1169,7 @@ export default function BeyondCampPage() {
       </section>
 
       {/* ── INSTRUCTOR ── */}
-      <section style={{ background: "#0a3d1f", padding: "96px 24px" }}>
+      <section style={{ background: "#0a1628", padding: "96px 24px" }}>
         <div style={{ maxWidth: "900px", margin: "0 auto" }}>
           <div
             className="two-col"
@@ -1153,19 +1187,25 @@ export default function BeyondCampPage() {
                     width: "140px",
                     height: "140px",
                     borderRadius: "50%",
-                    background: "linear-gradient(135deg, #16a34a, #4ade80)",
+                    background: "linear-gradient(135deg, #0077cc, #38bdf8)",
                     margin: "0 auto 20px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     fontSize: "64px",
                     boxShadow:
-                      "0 0 0 6px rgba(74,222,128,0.15), 0 0 0 12px rgba(74,222,128,0.07)",
+                      "0 0 0 6px rgba(56,189,248,0.15), 0 0 0 12px rgba(56,189,248,0.08)",
                   }}
                 >
                   👨‍💻
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                  }}
+                >
                   <a
                     href={`tel:${PHONE_1}`}
                     style={{
@@ -1177,10 +1217,11 @@ export default function BeyondCampPage() {
                       border: "1px solid rgba(255,255,255,0.1)",
                       borderRadius: "10px",
                       padding: "12px",
-                      color: "#86efac",
+                      color: "#94a3b8",
                       fontSize: "14px",
                       textDecoration: "none",
                       fontWeight: 600,
+                      transition: "background 0.2s",
                     }}
                   >
                     📞 {PHONE_1}
@@ -1196,7 +1237,7 @@ export default function BeyondCampPage() {
                       border: "1px solid rgba(255,255,255,0.1)",
                       borderRadius: "10px",
                       padding: "12px",
-                      color: "#86efac",
+                      color: "#94a3b8",
                       fontSize: "14px",
                       textDecoration: "none",
                       fontWeight: 600,
@@ -1215,7 +1256,7 @@ export default function BeyondCampPage() {
                       border: "1px solid rgba(255,255,255,0.1)",
                       borderRadius: "10px",
                       padding: "12px",
-                      color: "#86efac",
+                      color: "#94a3b8",
                       fontSize: "13px",
                       textDecoration: "none",
                       fontWeight: 600,
@@ -1232,7 +1273,7 @@ export default function BeyondCampPage() {
                 style={{
                   fontSize: "13px",
                   fontWeight: 700,
-                  color: "#4ade80",
+                  color: "#38bdf8",
                   letterSpacing: "0.08em",
                   textTransform: "uppercase",
                   marginBottom: "12px",
@@ -1253,7 +1294,7 @@ export default function BeyondCampPage() {
               </h2>
               <p
                 style={{
-                  color: "#4ade80",
+                  color: "#38bdf8",
                   fontWeight: 600,
                   marginBottom: "20px",
                   fontSize: "15px",
@@ -1265,11 +1306,10 @@ export default function BeyondCampPage() {
               </p>
               <p
                 style={{
-                  color: "#86efac",
+                  color: "#94a3b8",
                   lineHeight: 1.8,
                   fontSize: "15px",
                   marginBottom: "28px",
-                  opacity: 0.85,
                 }}
               >
                 I have built real software products — from HRMS systems to
@@ -1280,7 +1320,7 @@ export default function BeyondCampPage() {
               <div style={{ display: "flex", gap: "12px" }}>
                 <a
                   href="#apply"
-                  className="btn-primary"
+                  className="btn-blue"
                   style={{ fontSize: "14px", padding: "11px 20px" }}
                 >
                   Apply Now
@@ -1293,12 +1333,12 @@ export default function BeyondCampPage() {
                     display: "inline-flex",
                     alignItems: "center",
                     gap: "6px",
-                    color: "#4ade80",
+                    color: "#38bdf8",
                     fontSize: "14px",
                     fontWeight: 600,
                     textDecoration: "none",
-                    background: "rgba(74,222,128,0.1)",
-                    border: "1px solid rgba(74,222,128,0.25)",
+                    background: "rgba(56,189,248,0.1)",
+                    border: "1px solid rgba(56,189,248,0.25)",
                     borderRadius: "10px",
                     padding: "11px 20px",
                   }}
@@ -1312,7 +1352,7 @@ export default function BeyondCampPage() {
       </section>
 
       {/* ── PROJECTS ── */}
-      <section style={{ background: "#f0fdf4", padding: "96px 24px" }}>
+      <section style={{ background: "#f8fafc", padding: "96px 24px" }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
           <FadeIn style={{ textAlign: "center", marginBottom: "56px" }}>
             <div
@@ -1351,7 +1391,8 @@ export default function BeyondCampPage() {
                 lineHeight: 1.6,
               }}
             >
-              Your instructor doesn't just teach — he ships. Here are live products.
+              Your instructor doesn't just teach — he ships. Here are live
+              products.
             </p>
           </FadeIn>
 
@@ -1369,7 +1410,7 @@ export default function BeyondCampPage() {
                 style={{
                   background: "#fff",
                   borderRadius: "20px",
-                  border: "1px solid #d1fae5",
+                  border: "1px solid #e5e7eb",
                   overflow: "hidden",
                   height: "100%",
                   display: "flex",
@@ -1378,7 +1419,7 @@ export default function BeyondCampPage() {
               >
                 <div
                   style={{
-                    background: "#0a3d1f",
+                    background: "#0a1628",
                     padding: "20px",
                     overflowX: "auto",
                     display: "flex",
@@ -1419,7 +1460,13 @@ export default function BeyondCampPage() {
                       flexWrap: "wrap",
                     }}
                   >
-                    <h3 style={{ fontWeight: 800, fontSize: "17px", color: "#111827" }}>
+                    <h3
+                      style={{
+                        fontWeight: 800,
+                        fontSize: "17px",
+                        color: "#111827",
+                      }}
+                    >
                       OneUniverse
                     </h3>
                     <span
@@ -1444,8 +1491,8 @@ export default function BeyondCampPage() {
                       marginBottom: "14px",
                     }}
                   >
-                    Secure digital marketplace with BVN/NIN verification, bank loan
-                    integration, and real-time geo-matching.
+                    Secure digital marketplace with BVN/NIN verification, bank
+                    loan integration, and real-time geo-matching.
                   </p>
                   <a
                     href="https://play.google.com/store/apps/details?id=com.oneuniverse.oneuniverse"
@@ -1453,7 +1500,7 @@ export default function BeyondCampPage() {
                     rel="noopener noreferrer"
                     style={{
                       fontSize: "13px",
-                      color: "#16a34a",
+                      color: "#0077cc",
                       fontWeight: 700,
                       textDecoration: "none",
                     }}
@@ -1470,7 +1517,7 @@ export default function BeyondCampPage() {
                 style={{
                   background: "#fff",
                   borderRadius: "20px",
-                  border: "1px solid #d1fae5",
+                  border: "1px solid #e5e7eb",
                   overflow: "hidden",
                   height: "100%",
                   display: "flex",
@@ -1479,7 +1526,7 @@ export default function BeyondCampPage() {
               >
                 <div
                   style={{
-                    background: "linear-gradient(135deg, #052e16, #0a3d1f)",
+                    background: "linear-gradient(135deg, #1e3a5f, #0d2344)",
                     padding: "40px 24px",
                     textAlign: "center",
                   }}
@@ -1493,14 +1540,33 @@ export default function BeyondCampPage() {
                       display: "inline-block",
                     }}
                   >
-                    <p style={{ color: "#4ade80", fontWeight: 900, fontSize: "24px", margin: 0 }}>
+                    <p
+                      style={{
+                        color: "#38bdf8",
+                        fontWeight: 900,
+                        fontSize: "24px",
+                        margin: 0,
+                      }}
+                    >
                       ICAN
                     </p>
-                    <p style={{ color: "#86efac", fontSize: "12px", margin: "4px 0 0" }}>
+                    <p
+                      style={{
+                        color: "#94a3b8",
+                        fontSize: "12px",
+                        margin: "4px 0 0",
+                      }}
+                    >
                       Surulere District Society
                     </p>
                   </div>
-                  <p style={{ color: "#4ade80", fontSize: "12px", marginTop: "10px", opacity: 0.6 }}>
+                  <p
+                    style={{
+                      color: "#64748b",
+                      fontSize: "12px",
+                      marginTop: "10px",
+                    }}
+                  >
                     icansuruleredistrict.org
                   </p>
                 </div>
@@ -1521,7 +1587,13 @@ export default function BeyondCampPage() {
                       flexWrap: "wrap",
                     }}
                   >
-                    <h3 style={{ fontWeight: 800, fontSize: "17px", color: "#111827" }}>
+                    <h3
+                      style={{
+                        fontWeight: 800,
+                        fontSize: "17px",
+                        color: "#111827",
+                      }}
+                    >
                       ICAN Surulere
                     </h3>
                     <span
@@ -1546,14 +1618,19 @@ export default function BeyondCampPage() {
                       marginBottom: "14px",
                     }}
                   >
-                    Full web platform for ICAN Surulere chapter. Member login, events,
-                    gallery, and backend systems built with Next.js.
+                    Full web platform for ICAN Surulere chapter. Member login,
+                    events, gallery, and backend systems built with Next.js.
                   </p>
                   <a
                     href="https://www.icansuruleredistrict.org"
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{ fontSize: "13px", color: "#16a34a", fontWeight: 700, textDecoration: "none" }}
+                    style={{
+                      fontSize: "13px",
+                      color: "#0077cc",
+                      fontWeight: 700,
+                      textDecoration: "none",
+                    }}
                   >
                     Visit Website →
                   </a>
@@ -1567,7 +1644,7 @@ export default function BeyondCampPage() {
                 style={{
                   background: "#fff",
                   borderRadius: "20px",
-                  border: "1px solid #d1fae5",
+                  border: "1px solid #e5e7eb",
                   overflow: "hidden",
                   height: "100%",
                   display: "flex",
@@ -1602,11 +1679,24 @@ export default function BeyondCampPage() {
                     >
                       Founder Thrive
                     </p>
-                    <p style={{ color: "#86efac", fontSize: "11px", margin: "4px 0 0" }}>
+                    <p
+                      style={{
+                        color: "#86efac",
+                        fontSize: "11px",
+                        margin: "4px 0 0",
+                      }}
+                    >
                       by The Weave
                     </p>
                   </div>
-                  <p style={{ color: "#4ade80", fontSize: "11px", marginTop: "10px", fontWeight: 600 }}>
+                  <p
+                    style={{
+                      color: "#4ade80",
+                      fontSize: "11px",
+                      marginTop: "10px",
+                      fontWeight: 600,
+                    }}
+                  >
                     📱 Google Play Store
                   </p>
                 </div>
@@ -1627,7 +1717,13 @@ export default function BeyondCampPage() {
                       flexWrap: "wrap",
                     }}
                   >
-                    <h3 style={{ fontWeight: 800, fontSize: "17px", color: "#111827" }}>
+                    <h3
+                      style={{
+                        fontWeight: 800,
+                        fontSize: "17px",
+                        color: "#111827",
+                      }}
+                    >
                       Founder Thrive
                     </h3>
                     <span
@@ -1652,15 +1748,22 @@ export default function BeyondCampPage() {
                       marginBottom: "14px",
                     }}
                   >
-                    Lifestyle app combating burnout in startup founders. Wellness tools,
-                    mind-body routines, and wellbeing journeys.
+                    Lifestyle app combating burnout in startup founders.
+                    Wellness tools, mind-body routines, and wellbeing journeys.
                   </p>
-                  <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+                  <div
+                    style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}
+                  >
                     <a
                       href="https://www.founderthrive.net"
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{ fontSize: "13px", color: "#16a34a", fontWeight: 700, textDecoration: "none" }}
+                      style={{
+                        fontSize: "13px",
+                        color: "#0077cc",
+                        fontWeight: 700,
+                        textDecoration: "none",
+                      }}
                     >
                       Platform →
                     </a>
@@ -1668,7 +1771,12 @@ export default function BeyondCampPage() {
                       href="https://play.google.com/store/search?q=founder+thrive+the+weave&c=apps"
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{ fontSize: "13px", color: "#166534", fontWeight: 700, textDecoration: "none" }}
+                      style={{
+                        fontSize: "13px",
+                        color: "#166534",
+                        fontWeight: 700,
+                        textDecoration: "none",
+                      }}
                     >
                       Play Store →
                     </a>
@@ -1682,7 +1790,11 @@ export default function BeyondCampPage() {
 
       {/* ── PRICING ── */}
       <section
-        style={{ padding: "96px 24px", textAlign: "center", background: "#fff" }}
+        style={{
+          padding: "96px 24px",
+          textAlign: "center",
+          background: "#fff",
+        }}
       >
         <FadeIn>
           <div
@@ -1720,22 +1832,23 @@ export default function BeyondCampPage() {
             style={{
               display: "inline-block",
               background: "#fff",
-              border: "2px solid #16a34a",
+              border: "2px solid #0077cc",
               borderRadius: "24px",
               padding: "48px 56px",
-              boxShadow: "0 20px 60px rgba(22,163,74,0.12)",
+              boxShadow: "0 20px 60px rgba(0,119,204,0.12)",
               maxWidth: "460px",
               width: "100%",
               position: "relative",
             }}
           >
+            {/* Popular badge */}
             <div
               style={{
                 position: "absolute",
                 top: "-16px",
                 left: "50%",
                 transform: "translateX(-50%)",
-                background: "#16a34a",
+                background: "#0077cc",
                 color: "#fff",
                 padding: "6px 20px",
                 borderRadius: "100px",
@@ -1751,14 +1864,20 @@ export default function BeyondCampPage() {
               style={{
                 fontSize: "clamp(52px, 10vw, 68px)",
                 fontWeight: 900,
-                color: "#0a3d1f",
+                color: "#0a1628",
                 lineHeight: 1,
                 marginBottom: "6px",
               }}
             >
               ₦95,000
             </p>
-            <p style={{ color: "#6b7280", fontSize: "14px", marginBottom: "32px" }}>
+            <p
+              style={{
+                color: "#6b7280",
+                fontSize: "14px",
+                marginBottom: "32px",
+              }}
+            >
               One-time payment. No hidden fees.
             </p>
 
@@ -1793,7 +1912,7 @@ export default function BeyondCampPage() {
               href="#apply"
               style={{
                 display: "block",
-                background: "linear-gradient(135deg, #16a34a, #22c55e)",
+                background: "linear-gradient(135deg, #0077cc, #0099ff)",
                 color: "#fff",
                 padding: "16px",
                 borderRadius: "12px",
@@ -1812,7 +1931,9 @@ export default function BeyondCampPage() {
             >
               Reserve My Slot →
             </a>
-            <p style={{ marginTop: "14px", fontSize: "12px", color: "#9ca3af" }}>
+            <p
+              style={{ marginTop: "14px", fontSize: "12px", color: "#9ca3af" }}
+            >
               ⚠️ Price increases after NYSC camp closes. Limited slots.
             </p>
           </div>
@@ -1820,19 +1941,19 @@ export default function BeyondCampPage() {
       </section>
 
       {/* ── FAQ ── */}
-      <section style={{ background: "#f0fdf4", padding: "96px 24px" }}>
+      <section style={{ background: "#f8fafc", padding: "96px 24px" }}>
         <div style={{ maxWidth: "700px", margin: "0 auto" }}>
           <FadeIn style={{ textAlign: "center", marginBottom: "56px" }}>
             <div
               style={{
                 display: "inline-block",
-                background: "#dcfce7",
-                border: "1px solid #86efac",
+                background: "#f3e8ff",
+                border: "1px solid #d8b4fe",
                 borderRadius: "8px",
                 padding: "5px 14px",
                 fontSize: "13px",
                 fontWeight: 700,
-                color: "#166534",
+                color: "#6b21a8",
                 marginBottom: "16px",
                 textTransform: "uppercase",
                 letterSpacing: "0.07em",
@@ -1855,7 +1976,7 @@ export default function BeyondCampPage() {
             style={{
               background: "#fff",
               borderRadius: "20px",
-              border: "1px solid #d1fae5",
+              border: "1px solid #e5e7eb",
               overflow: "hidden",
             }}
           >
@@ -1863,7 +1984,8 @@ export default function BeyondCampPage() {
               <div
                 key={i}
                 style={{
-                  borderBottom: i < FAQS.length - 1 ? "1px solid #f0fdf4" : "none",
+                  borderBottom:
+                    i < FAQS.length - 1 ? "1px solid #f3f4f6" : "none",
                 }}
               >
                 <button
@@ -1871,14 +1993,29 @@ export default function BeyondCampPage() {
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   style={{ padding: "20px 24px" }}
                 >
-                  <span style={{ fontSize: "16px", fontWeight: 600, color: "#111827", lineHeight: 1.4 }}>
+                  <span
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: 600,
+                      color: "#111827",
+                      lineHeight: 1.4,
+                    }}
+                  >
                     {faq.q}
                   </span>
-                  <div className={`faq-icon${openFaq === i ? " open" : ""}`}>+</div>
+                  <div className={`faq-icon${openFaq === i ? " open" : ""}`}>
+                    +
+                  </div>
                 </button>
                 {openFaq === i && (
-                  <div style={{ padding: "0 24px 20px" }}>
-                    <p style={{ color: "#4b5563", lineHeight: 1.8, fontSize: "15px" }}>
+                  <div style={{ padding: "0 24px 20px", animation: "none" }}>
+                    <p
+                      style={{
+                        color: "#4b5563",
+                        lineHeight: 1.8,
+                        fontSize: "15px",
+                      }}
+                    >
                       {faq.a}
                     </p>
                   </div>
@@ -1892,7 +2029,11 @@ export default function BeyondCampPage() {
       {/* ── APPLY FORM ── */}
       <section
         id="apply"
-        style={{ padding: "96px 24px", textAlign: "center", background: "#fff" }}
+        style={{
+          padding: "96px 24px",
+          textAlign: "center",
+          background: "#fff",
+        }}
       >
         <FadeIn style={{ maxWidth: "560px", margin: "0 auto" }}>
           <div
@@ -1925,7 +2066,14 @@ export default function BeyondCampPage() {
             <br />
             without a skill.
           </h2>
-          <p style={{ color: "#6b7280", fontSize: "16px", marginBottom: "40px", lineHeight: 1.6 }}>
+          <p
+            style={{
+              color: "#6b7280",
+              fontSize: "16px",
+              marginBottom: "40px",
+              lineHeight: 1.6,
+            }}
+          >
             Fill in your details — it opens WhatsApp with your info pre-filled
             so we can confirm your slot instantly.
           </p>
@@ -1944,10 +2092,24 @@ export default function BeyondCampPage() {
               }}
             >
               <div style={{ fontSize: "48px", marginBottom: "12px" }}>✅</div>
-              <p style={{ fontSize: "22px", fontWeight: 800, color: "#166534", marginBottom: "8px" }}>
+              <p
+                style={{
+                  fontSize: "22px",
+                  fontWeight: 800,
+                  color: "#166534",
+                  marginBottom: "8px",
+                }}
+              >
                 WhatsApp opened!
               </p>
-              <p style={{ fontSize: "15px", color: "#4b5563", marginBottom: "24px", lineHeight: 1.6 }}>
+              <p
+                style={{
+                  fontSize: "15px",
+                  color: "#4b5563",
+                  marginBottom: "24px",
+                  lineHeight: 1.6,
+                }}
+              >
                 Your details are pre-filled in the message. Just hit{" "}
                 <strong>Send</strong> and Paschal will confirm your slot.
               </p>
@@ -1955,10 +2117,19 @@ export default function BeyondCampPage() {
                 href={WA_GROUP}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary"
-                style={{ width: "100%", justifyContent: "center", fontSize: "16px" }}
+                className="btn-green"
+                style={{
+                  width: "100%",
+                  justifyContent: "center",
+                  fontSize: "16px",
+                }}
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                 </svg>
                 Join Free WhatsApp Community
@@ -1972,10 +2143,10 @@ export default function BeyondCampPage() {
                 maxWidth: "460px",
                 margin: "0 auto",
                 background: "#fff",
-                border: "1px solid #d1fae5",
+                border: "1px solid #e5e7eb",
                 borderRadius: "20px",
                 padding: "40px 36px",
-                boxShadow: "0 8px 48px rgba(22,163,74,0.08)",
+                boxShadow: "0 8px 48px rgba(0,0,0,0.07)",
                 textAlign: "left",
               }}
             >
@@ -2031,8 +2202,13 @@ export default function BeyondCampPage() {
 
               <button
                 onClick={handleSubmit}
-                className="btn-primary"
-                style={{ width: "100%", justifyContent: "center", fontSize: "17px", padding: "16px" }}
+                className="btn-green"
+                style={{
+                  width: "100%",
+                  justifyContent: "center",
+                  fontSize: "17px",
+                  padding: "16px",
+                }}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
@@ -2040,20 +2216,35 @@ export default function BeyondCampPage() {
                 Reserve My Slot on WhatsApp
               </button>
 
-              <p style={{ textAlign: "center", marginTop: "16px", fontSize: "13px", color: "#9ca3af" }}>
+              <p
+                style={{
+                  textAlign: "center",
+                  marginTop: "16px",
+                  fontSize: "13px",
+                  color: "#9ca3af",
+                }}
+              >
                 Prefer to message directly?{" "}
                 <a
                   href={WA_DIRECT}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ color: "#16a34a", fontWeight: 700, textDecoration: "none" }}
+                  style={{
+                    color: "#16a34a",
+                    fontWeight: 700,
+                    textDecoration: "none",
+                  }}
                 >
                   Chat on WhatsApp
                 </a>{" "}
                 or call{" "}
                 <a
                   href={`tel:${PHONE_1}`}
-                  style={{ color: "#16a34a", fontWeight: 700, textDecoration: "none" }}
+                  style={{
+                    color: "#0077cc",
+                    fontWeight: 700,
+                    textDecoration: "none",
+                  }}
                 >
                   {PHONE_1}
                 </a>
@@ -2069,14 +2260,21 @@ export default function BeyondCampPage() {
                   textAlign: "center",
                 }}
               >
-                <p style={{ fontSize: "13px", color: "#166534", marginBottom: "10px", fontWeight: 600 }}>
+                <p
+                  style={{
+                    fontSize: "13px",
+                    color: "#166534",
+                    marginBottom: "10px",
+                    fontWeight: 600,
+                  }}
+                >
                   💬 Not ready to pay yet? Join the free community first.
                 </p>
                 <a
                   href={WA_GROUP}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-primary"
+                  className="btn-green"
                   style={{ fontSize: "14px", padding: "10px 20px" }}
                 >
                   Join WhatsApp Community →
@@ -2090,7 +2288,7 @@ export default function BeyondCampPage() {
       {/* ── FINAL CTA ── */}
       <section
         style={{
-          background: "linear-gradient(160deg, #052e16 0%, #0a3d1f 100%)",
+          background: "linear-gradient(160deg, #070e1c 0%, #0a1628 100%)",
           color: "#fff",
           padding: "96px 24px",
           textAlign: "center",
@@ -2107,7 +2305,7 @@ export default function BeyondCampPage() {
             width: "600px",
             height: "400px",
             background:
-              "radial-gradient(ellipse, rgba(74,222,128,0.1) 0%, transparent 65%)",
+              "radial-gradient(ellipse, rgba(56,189,248,0.1) 0%, transparent 65%)",
             pointerEvents: "none",
           }}
         />
@@ -2129,14 +2327,13 @@ export default function BeyondCampPage() {
                 lineHeight: 1.1,
                 letterSpacing: "-0.03em",
                 marginBottom: "16px",
-                color: "#fff",
               }}
             >
               One year of service.
               <br />
               <span
                 style={{
-                  background: "linear-gradient(90deg, #4ade80, #86efac)",
+                  background: "linear-gradient(90deg, #38bdf8, #818cf8)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -2145,7 +2342,14 @@ export default function BeyondCampPage() {
                 One skill that lasts a lifetime.
               </span>
             </h2>
-            <p style={{ color: "#86efac", fontSize: "17px", marginBottom: "40px", lineHeight: 1.6, opacity: 0.8 }}>
+            <p
+              style={{
+                color: "#64748b",
+                fontSize: "17px",
+                marginBottom: "40px",
+                lineHeight: 1.6,
+              }}
+            >
               Join the Beyond Camp community and start your journey today.
             </p>
 
@@ -2161,7 +2365,7 @@ export default function BeyondCampPage() {
             >
               <a
                 href="#apply"
-                className="btn-primary"
+                className="btn-blue"
                 style={{ fontSize: "17px", padding: "16px 40px" }}
               >
                 Apply Now →
@@ -2172,7 +2376,12 @@ export default function BeyondCampPage() {
                 rel="noopener noreferrer"
                 className="btn-ghost"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                 </svg>
                 Join Free Community
@@ -2188,22 +2397,46 @@ export default function BeyondCampPage() {
                 marginBottom: "32px",
               }}
             >
-              <a href={`tel:${PHONE_1}`} style={{ color: "#4ade80", fontSize: "14px", fontWeight: 600, textDecoration: "none" }}>
+              <a
+                href={`tel:${PHONE_1}`}
+                style={{
+                  color: "#38bdf8",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  textDecoration: "none",
+                }}
+              >
                 📞 {PHONE_1}
               </a>
-              <a href={`tel:${PHONE_2}`} style={{ color: "#4ade80", fontSize: "14px", fontWeight: 600, textDecoration: "none" }}>
+              <a
+                href={`tel:${PHONE_2}`}
+                style={{
+                  color: "#38bdf8",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  textDecoration: "none",
+                }}
+              >
                 📞 {PHONE_2}
               </a>
-              <a href={`mailto:${EMAIL}`} style={{ color: "#4ade80", fontSize: "14px", fontWeight: 600, textDecoration: "none" }}>
+              <a
+                href={`mailto:${EMAIL}`}
+                style={{
+                  color: "#38bdf8",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  textDecoration: "none",
+                }}
+              >
                 ✉️ {EMAIL}
               </a>
             </div>
 
-            <p style={{ fontSize: "13px", color: "#166534" }}>
+            <p style={{ fontSize: "13px", color: "#334155" }}>
               © {new Date().getFullYear()} D-Starite Technologies ·{" "}
               <a
                 href="https://www.dstaritetechnologies.com"
-                style={{ color: "#166534", textDecoration: "none" }}
+                style={{ color: "#334155", textDecoration: "none" }}
               >
                 dstaritetechnologies.com
               </a>
