@@ -580,7 +580,7 @@ const TERMS: TermsDoc = {
           "t": "clause",
           "id": "request",
           "title": "How to request a refund",
-          "text": "Email [info@dstaritetechnologies.com](mailto:info@dstaritetechnologies.com) with the subject line “Refund request – [Programme] – [Cohort]”, and include:",
+          "text": "Email [info@dstariteitsolutions.online](mailto:info@dstariteitsolutions.online) with the subject line “Refund request – [Programme] – [Cohort]”, and include:",
           "blocks": [
             {
               "t": "list",
@@ -676,7 +676,7 @@ const TERMS: TermsDoc = {
           "t": "clause",
           "id": null,
           "title": "Reporting concerns",
-          "text": "If an Instructor or anyone else asks you for an unofficial payment or behaves improperly, tell us at [info@dstaritetechnologies.com](mailto:info@dstaritetechnologies.com) so we can act.",
+          "text": "If an Instructor or anyone else asks you for an unofficial payment or behaves improperly, tell us at [info@dstariteitsolutions.online](mailto:info@dstariteitsolutions.online) so we can act.",
           "blocks": [],
           "n": "8.4"
         }
@@ -834,7 +834,7 @@ const TERMS: TermsDoc = {
           "t": "clause",
           "id": null,
           "title": "Raise it with us first",
-          "text": "If you have a concern, email [info@dstaritetechnologies.com](mailto:info@dstaritetechnologies.com). We will acknowledge it within 3 Working Days and aim to resolve it within 14 Working Days.",
+          "text": "If you have a concern, email [info@dstariteitsolutions.online](mailto:info@dstariteitsolutions.online). We will acknowledge it within 3 Working Days and aim to resolve it within 14 Working Days.",
           "blocks": [],
           "n": "13.1"
         },
@@ -942,11 +942,11 @@ const TERMS: TermsDoc = {
             ],
             [
               "Email",
-              "[info@dstaritetechnologies.com](mailto:info@dstaritetechnologies.com)"
+              "[info@dstariteitsolutions.online](mailto:info@dstariteitsolutions.online)"
             ],
             [
               "Website",
-              "[dstaritetechnologies.com/beyond-camp](https://dstaritetechnologies.com/beyond-camp)"
+              "[dstariteitsolutions.online/beyond-camp](https://dstariteitsolutions.online/beyond-camp)"
             ],
             [
               "Refund requests",
