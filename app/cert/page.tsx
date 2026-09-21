@@ -18,7 +18,7 @@ const WA_NUMBER      = "2348130062780";
 
 // ── CERTIFICATE DETAILS ──────────────────────────────────────────────────────
 // Courses (and their fees) are edited on the server in app/api/certificate/certificate-courses.ts.
-const SITE           = "https://www.dstaritetechnologies.com";
+const SITE           = "https://www.dstariteitsolutions.online";
 const SIGNER_NAME    = "Paschal Nwokeocha";
 const SIGNER_TITLE   = "Founder, D-Starite Technologies";
 /**
@@ -1031,8 +1031,8 @@ export default function AICertPage() {
         <a href={`https://wa.me/${WA_NUMBER}`} target="_blank" rel="noopener noreferrer"
           style={{ color: BRAND.green, fontWeight: 600, textDecoration: "none" }}>WhatsApp</a>
         {" · "}
-        <a href="https://www.dstaritetechnologies.com" style={{ color: BRAND.green, textDecoration: "none" }}>
-          dstaritetechnologies.com
+        <a href="https://www.dstariteitsolutions.online" style={{ color: BRAND.green, textDecoration: "none" }}>
+          dstariteitsolutions.online
         </a>
       </p>
     </main>

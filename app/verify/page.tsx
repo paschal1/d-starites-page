@@ -118,7 +118,7 @@ export default async function VerifyPage({ searchParams }: { searchParams: Promi
         )}
 
         <p style={{ textAlign: 'center', marginTop: 32, fontSize: 14, color: BRAND.muted }}>
-          <a href="https://www.dstaritetechnologies.com" style={{ color: BRAND.green, fontWeight: 600 }}>dstaritetechnologies.com</a>
+          <a href="https://www.dstariteitsolutions.online" style={{ color: BRAND.green, fontWeight: 600 }}>dstariteitsolutions.online</a>
         </p>
       </div>
     </main>

@@ -2202,10 +2202,10 @@
 //             <p style={{ fontSize: "13px", color: "#166534" }}>
 //               © {new Date().getFullYear()} D-Starite Technologies ·{" "}
 //               <a
-//                 href="https://www.dstaritetechnologies.com"
+//                 href="https://www.dstariteitsolutions.online"
 //                 style={{ color: "#166534", textDecoration: "none" }}
 //               >
-//                 dstaritetechnologies.com
+//                 dstariteitsolutions.online
 //               </a>
 //             </p>
 //           </FadeIn>

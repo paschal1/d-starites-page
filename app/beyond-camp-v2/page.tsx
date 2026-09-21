@@ -2435,10 +2435,10 @@ export default function BeyondCampPage() {
             <p style={{ fontSize: "13px", color: "#334155" }}>
               © {new Date().getFullYear()} D-Starite Technologies ·{" "}
               <a
-                href="https://www.dstaritetechnologies.com"
+                href="https://www.dstariteitsolutions.online"
                 style={{ color: "#334155", textDecoration: "none" }}
               >
-                dstaritetechnologies.com
+                dstariteitsolutions.online
               </a>
             </p>
           </FadeIn>
