@@ -9,6 +9,7 @@ export const metadata = {
   },
 };
 
+//ok
 export default function RootLayout({
   children,
 }: {
